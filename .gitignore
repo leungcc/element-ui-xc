@@ -3,8 +3,7 @@ node_modules
 npm-debug.log
 lerna-debug.log
 npm-debug.log.*
-lerna-debug.log.*
-lib
+lerna-debug.log
 .idea
 .vscode
 examples/element-ui
