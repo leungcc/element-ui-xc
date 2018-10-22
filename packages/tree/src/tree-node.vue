@@ -24,7 +24,8 @@
     ref="node"
   >
     <div class="el-tree-node__content"
-      :style="{ 'padding-left': (node.level - 1) * tree.indent + 'px' }">
+      :style="{ 'padding-left': (node.level - 1) * tree.indent + 'px' }"
+      :class="[ `tree-node-level-${nodeLevel}` ]">
       <span
         class="el-tree-node__expand-icon el-icon-caret-right"
         @click.stop="handleExpandIconClick"
@@ -55,6 +56,7 @@
       >
         <el-tree-node
           :render-content="renderContent"
+          :node-level="nodeLevel+1"
           v-for="child in node.childNodes"
           :render-after-expand="renderAfterExpand"
           :key="getNodeKey(child)"
@@ -85,6 +87,7 @@
           return {};
         }
       },
+      nodeLevel: Number,  //xc: treeNode的层级
       props: {},
       renderContent: Function,
       renderAfterExpand: {

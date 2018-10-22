@@ -11,6 +11,7 @@
   >
     <el-tree-node
       v-for="child in root.childNodes"
+      :node-level="1"
       :node="child"
       :props="props"
       :render-after-expand="renderAfterExpand"

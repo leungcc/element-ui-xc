@@ -182,7 +182,6 @@
    * 计算字符串的字节长度
    */
   String.prototype.strlen = function() {
-    console.warn('inject strlen....')
     var str = this;
     str += '';
     if(!str) {
@@ -218,10 +217,9 @@
    * @return {Number} 宽度
    */
   const calcTagWidth = str => {
-    //const fontW__cn = 12;
     const fontW__en = 6;
     const len = str.strlen();
-    console.warn(`${str}'s width=${(fontW__en*len+20)+(8+4)+(7+2)}`)
+    //console.warn(`${str}'s width=${(fontW__en*len+20)+(8+4)+(7+2)}`)
     return (fontW__en*len+20)+(8+4)+(7+2);  //（字体宽+icon宽）+（左右padding）+（左右margin）
   }
 
@@ -348,6 +346,10 @@
       automaticDropdown: Boolean,
       size: String,
       disabled: Boolean,
+      noOptionMatchNull: {//xc add props: 如果声明该属性，则如果在prop中找不到value匹配的项时，不显示label
+        type: Boolean,
+        default: false
+      }, 
       clearable: Boolean,
       filterable: Boolean,
       allowCreate: Boolean,
@@ -606,8 +608,10 @@
           }
         }
         if (option) return option;
-        const label = (!isObject && !isNull)
-          ? value : '';
+        //xc注释：如果value在options中找不到，直接返回空
+        // const label = (!isObject && !isNull)
+        //   ? value : '';
+        const label = this.noOptionMatchNull ? '' : ((!isObject && !isNull) ? value : '');
         let newOption = {
           value: value,
           currentLabel: label
@@ -952,9 +956,6 @@
         }
       });
       this.setSelected();
-
-      // xc test
-      console.warn(`this.inputWidth=${this.inputWidth}`);
     },
 
     beforeDestroy() {

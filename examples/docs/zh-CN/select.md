@@ -103,7 +103,7 @@
           value: 'Guangzhou',
           label: '广州'
         }],
-        value: '',
+        value: '21213',
         value2: '',
         value3: '',
         value4: '',
@@ -155,7 +155,11 @@
 :::demo `v-model`的值为当前被选中的`el-option`的 value 属性值
 ```html
 <template>
-  <el-select v-model="value" placeholder="请选择">
+  <el-select 
+    v-model="value" 
+    placeholder="请选择" 
+    :no-option-match-null="true"
+  >
     <el-option
       v-for="item in options"
       :key="item.value"
