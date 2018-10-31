@@ -44,8 +44,8 @@ module.exports = {
   <div>
     <el-date-panel 
       v-model="datess"
-     
-      value-format="HH:mm:ss"
+      type="dates"
+      value-format="yyyy-MM-dd"
     ></el-date-panel>
   </div>
 </template>
