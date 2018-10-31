@@ -61,6 +61,7 @@ export default {
       this.picker.$watch('selectedDate', val => {
         this.ss__value = val;
         self.$emit('input', this.ss__value);
+        //self.$emit('change', this.ss__value);
         console.warn(this.ss__value)
       })
 
