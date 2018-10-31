@@ -12,6 +12,7 @@ import FooterNav from './components/footer-nav';
 import title from './i18n/title.json';
 
 Vue.use(Element);
+
 Vue.use(VueRouter);
 Vue.component('demo-block', demoBlock);
 Vue.component('main-footer', MainFooter);
@@ -35,6 +36,8 @@ router.afterEach(route => {
   }
   document.title = 'Element';
 });
+
+console.log(routes);
 
 new Vue({ // eslint-disable-line
   render: h => h(entry),

@@ -111,6 +111,25 @@
     margin-bottom: 20px;
   }
 </style>
+## XC LEUNG Test
+xc test 直接一个日历选择的模板，不带下拉和 input输入框
+<template>
+  <div>
+    <!-- <date-panel> -->
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'xcdemo',
+  data() {
+    return {
+
+    }
+  }
+}
+</script>
+
 
 ## DatePicker 日期选择器
 
@@ -175,6 +194,11 @@
         value1: '',
         value2: '',
       };
+    },
+    watch: {
+      value1(val) {
+        console.log(val);
+      }
     }
   };
 </script>

@@ -109,6 +109,14 @@
               "title": "TimePicker 时间选择器"
             },
             {
+              "path": "/xctestmd",
+              "title": "xc test md"
+            },
+            {
+              "path": "/xcvue",
+              "title": "怀疑md文件mounted不能执行"
+            },
+            {
               "path": "/date-picker",
               "title": "DatePicker 日期选择器"
             },

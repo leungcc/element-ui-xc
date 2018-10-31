@@ -717,6 +717,7 @@ export default {
     },
 
     handleFocus() {
+      
       const type = this.type;
 
       if (HAVE_TRIGGER_TYPES.indexOf(type) !== -1 && !this.pickerVisible) {

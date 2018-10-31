@@ -173,7 +173,7 @@
 
   export default {
     mixins: [Locale],
-
+    name: 'DatePanel',    //xc test add
     directives: { Clickoutside },
 
     watch: {
@@ -336,6 +336,7 @@
       handleDateSelect(value) {
         if (this.selectionMode === 'dates') {
           this.selectedDate = value;
+          this.$emit('handleDateSelect', value);
         }
       },
 
