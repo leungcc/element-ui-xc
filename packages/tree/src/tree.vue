@@ -11,6 +11,7 @@
   >
     <el-tree-node
       v-for="child in root.childNodes"
+      :forbid-clk-levels="forbidClkLevels"
       :node-level="1"
       :node="child"
       :props="props"
@@ -64,6 +65,7 @@
     },
 
     props: {
+      forbidClkLevels: Array,
       data: {
         type: Array
       },

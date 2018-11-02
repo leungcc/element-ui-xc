@@ -1,6 +1,7 @@
 <template>
   <div
     class="el-tree-node"
+    :level="nodeLevel"
     @click.stop="handleClick"
     @contextmenu="($event) => this.handleContextMenu($event)"
     v-show="node.visible"
@@ -55,6 +56,7 @@
         :aria-expanded="expanded"
       >
         <el-tree-node
+          :forbid-clk-levels="forbidClkLevels"
           :render-content="renderContent"
           :node-level="nodeLevel+1"
           v-for="child in node.childNodes"
@@ -88,6 +90,7 @@
         }
       },
       nodeLevel: Number,  //xc: treeNode的层级
+      forbidClkLevels: Array, //xc: 禁止点击的 levels
       props: {},
       renderContent: Function,
       renderAfterExpand: {
@@ -163,6 +166,12 @@
       },
 
       handleClick() {
+        //xc add props: forbid-clk-levels
+        if(this.forbidClkLevels && this.forbidClkLevels.indexOf(this.nodeLevel) > -1) {
+          return;
+        }
+        
+
         const store = this.tree.store;
         store.setCurrentNode(this.node);
         this.tree.$emit('current-change', store.currentNode ? store.currentNode.data : null, store.currentNode);
@@ -187,6 +196,10 @@
       },
 
       handleExpandIconClick() {
+        //xc add props: forbid-clk-levels
+        if(this.forbidClkLevels && this.forbidClkLevels.indexOf(this.nodeLevel) > -1) {
+          return;
+        }
         if (this.node.isLeaf) return;
         if (this.expanded) {
           this.tree.$emit('node-collapse', this.node.data, this.node, this);

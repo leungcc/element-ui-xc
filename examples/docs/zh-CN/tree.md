@@ -397,7 +397,12 @@
 
 :::demo
 ```html
-<el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+<el-tree 
+  :data="data" 
+  :props="defaultProps" 
+  @node-click="handleNodeClick"
+  :forbid-clk-levels="[1]">
+</el-tree>
 
 <script>
   export default {
