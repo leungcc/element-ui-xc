@@ -138,6 +138,7 @@
         const selectedDate = this.selectedDate || this.value;
         const now = clearHours(new Date());
 
+
         for (let i = 0; i < 6; i++) {
           const row = rows[i];
 

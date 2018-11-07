@@ -54,7 +54,7 @@
             }
           }]
         },
-        value1: '',
+        value1: '2018-11-08',
         value2: '',
         value3: '',
         value4: '',
@@ -67,7 +67,7 @@
         value11: '',
         value12: '',
         value13: [],
-        value14: []
+        value14: ['2018-11-07']
       };
     }
   };
@@ -224,6 +224,7 @@
     <el-date-picker
       type="dates"
       v-model="value14"
+      value-format="yyyy-MM-dd"
       placeholder="选择一个或多个日期">
     </el-date-picker>
   </div>

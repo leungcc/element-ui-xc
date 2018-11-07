@@ -6,6 +6,8 @@
   import ElButtonGroup from 'element-ui/packages/button-group';
   import { generateId } from 'element-ui/src/utils/util';
 
+//xc modify at 2018-11-06: 新增props enter-not-hide{Boolean} 如果为true, 回车后不会触发收起
+
   export default {
     name: 'ElDropdown',
 
@@ -27,6 +29,10 @@
     },
 
     props: {
+      enterNotHide: {
+        type: Boolean,
+        default: false
+      },
       trigger: {
         type: String,
         default: 'hover'
@@ -140,7 +146,7 @@
           this.menuItems[0].focus();
           ev.preventDefault();
           ev.stopPropagation();
-        } else if (keyCode === 13) { // space enter选中
+        } else if (keyCode === 13 && !this.enterNotHide) { // space enter选中
           this.handleClick();
         } else if ([9, 27].indexOf(keyCode) > -1) { // tab || esc
           this.hide();
@@ -164,7 +170,7 @@
           this.menuItems[nextIndex].focus();
           ev.preventDefault();
           ev.stopPropagation();
-        } else if (keyCode === 13) { // enter选中
+        } else if (keyCode === 13 && !this.enterNotHide) { // enter选中
           this.triggerElm.focus();
           target.click();
           if (this.hideOnClick) { // click关闭

@@ -717,7 +717,6 @@ export default {
     },
 
     handleFocus() {
-      
       const type = this.type;
 
       if (HAVE_TRIGGER_TYPES.indexOf(type) !== -1 && !this.pickerVisible) {
@@ -824,7 +823,13 @@ export default {
       this.picker.selectionMode = this.selectionMode;
       this.picker.unlinkPanels = this.unlinkPanels;
       this.picker.arrowControl = this.arrowControl || this.timeArrowControl || false;
+      
       this.picker.selectedDate = Array.isArray(this.value) && this.value || [];
+
+      //xc mark:
+      if(this.type === 'dates')
+      this.picker.selectedDate = parseAsFormatAndType(this.picker.selectedDate, this.valueFormat, this.type, this.rangeSeparator) || this.picker.selectedDate;
+
       this.$watch('format', (format) => {
         this.picker.format = format;
       });
