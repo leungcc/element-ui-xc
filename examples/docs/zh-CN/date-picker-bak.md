@@ -54,7 +54,7 @@
             }
           }]
         },
-        value1: '',
+        value1: '2018-11-08',
         value2: '',
         value3: '',
         value4: '',
@@ -66,8 +66,8 @@
         value10: '',
         value11: '',
         value12: '',
-        value13: '',
-        value14: ['2018-11-09']
+        value13: [],
+        value14: ['2018-11-07']
       };
     }
   };
@@ -89,7 +89,7 @@
       border-right: none;
     }
   }
-
+  
   .demo-date-picker .container {
     flex: 1;
     border-right: solid 1px #EFF2F6;
@@ -111,6 +111,9 @@
     margin-bottom: 20px;
   }
 </style>
+## XC LEUNG Test
+
+
 
 ## DatePicker 日期选择器
 
@@ -145,6 +148,7 @@
 
 <script>
   export default {
+    
     data() {
       return {
         pickerOptions1: {
@@ -219,9 +223,10 @@
     <span class="demonstration">多个日期</span>
     <el-date-picker
       type="dates"
-      value-format="yyyy-MM-dd"
       v-model="value14"
+      
       placeholder="选择一个或多个日期">
+      <!-- value-format="yyyy-MM-dd" -->
     </el-date-picker>
   </div>
 </div>
@@ -233,8 +238,13 @@
         value3: '',
         value4: '',
         value5: '',
-        value14: ''
+        value14: []
       };
+    },
+    watch: {
+      value3(val) {
+        console.log(val);
+      }
     }
   };
 </script>
@@ -419,7 +429,7 @@
   export default {
     data() {
       return {
-        value13: ''
+        value13: []
       };
     }
   };

@@ -176,7 +176,7 @@
           size="mini"
           class="el-picker-panel__link-btn"
           :disabled="btnDisabled"
-          @click="handleConfirm(false)">
+          @click="handleConfirm()">
           {{ t('el.datepicker.confirm') }}
         </el-button>
       </div>
@@ -227,7 +227,7 @@
 
     computed: {
       btnDisabled() {
-        return !(this.minDate && this.maxDate && !this.selecting && this.isValidValue([this.minDate, this.maxDate]));
+        return !(this.minDate && this.maxDate && !this.selecting);
       },
 
       leftLabel() {
@@ -387,6 +387,8 @@
         } else if (Array.isArray(newVal)) {
           this.minDate = isDate(newVal[0]) ? new Date(newVal[0]) : null;
           this.maxDate = isDate(newVal[1]) ? new Date(newVal[1]) : null;
+          // NOTE: currently, maxDate = minDate + 1 month
+          //       should allow them to be set individually in the future
           if (this.minDate) {
             this.leftDate = this.minDate;
             if (this.unlinkPanels && this.maxDate) {
@@ -610,9 +612,7 @@
       },
 
       handleConfirm(visible = false) {
-        if (this.isValidValue([this.minDate, this.maxDate])) {
-          this.$emit('pick', [this.minDate, this.maxDate], visible);
-        }
+        this.$emit('pick', [this.minDate, this.maxDate], visible);
       },
 
       isValidValue(value) {
@@ -624,14 +624,6 @@
             ? !this.disabledDate(value[0]) && !this.disabledDate(value[1])
             : true
         );
-      },
-
-      resetView() {
-        // NOTE: this is a hack to reset {min, max}Date on picker open.
-        // TODO: correct way of doing so is to refactor {min, max}Date to be dependent on value and internal selection state
-        //       an alternative would be resetView whenever picker becomes visible, should also investigate date-panel's resetView
-        this.minDate = this.value && isDate(this.value[0]) ? new Date(this.value[0]) : null;
-        this.maxDate = this.value && isDate(this.value[0]) ? new Date(this.value[1]) : null;
       }
     },
 

@@ -48,7 +48,6 @@
     v-else>
     <i :class="['el-input__icon', 'el-range__icon', triggerClass]"></i>
     <input
-      autocomplete="off"
       :placeholder="startPlaceholder"
       :value="displayValue && displayValue[0]"
       :disabled="pickerDisabled"
@@ -59,11 +58,8 @@
       @change="handleStartChange"
       @focus="handleFocus"
       class="el-range-input">
-    <slot name="range-separator">
-      <span class="el-range-separator">{{ rangeSeparator }}</span>
-    </slot>
+    <span class="el-range-separator">{{ rangeSeparator }}</span>
     <input
-      autocomplete="off"
       :placeholder="endPlaceholder"
       :value="displayValue && displayValue[1]"
       :disabled="pickerDisabled"
@@ -423,6 +419,7 @@ export default {
       handler(val) {
         if (this.picker) {
           this.picker.value = val;
+          this.picker.selectedDate = Array.isArray(val) ? val : [];
         }
       }
     },
@@ -430,11 +427,6 @@ export default {
       // NOTE: should eventually move to jsx style picker + panel ?
       if (this.picker) {
         this.picker.defaultValue = val;
-      }
-    },
-    value(val, oldVal) {
-      if (!valueEquals(val, oldVal) && !this.pickerVisible) {
-        this.dispatch('ElFormItem', 'el.form.change', val);
       }
     }
   },
@@ -708,11 +700,15 @@ export default {
     handleClose() {
       if (!this.pickerVisible) return;
       this.pickerVisible = false;
-
-      if (this.type === 'dates') {
-        // restore to former value
-        const oldValue = parseAsFormatAndType(this.valueOnOpen, this.valueFormat, this.type, this.rangeSeparator) || this.valueOnOpen;
-        this.emitInput(oldValue);
+      const {
+        type,
+        valueOnOpen,
+        valueFormat,
+        rangeSeparator
+      } = this;
+      if (type === 'dates' && this.picker) {
+        this.picker.selectedDate = parseAsFormatAndType(valueOnOpen, valueFormat, type, rangeSeparator) || valueOnOpen;
+        this.emitInput(this.picker.selectedDate);
       }
     },
 
@@ -827,6 +823,15 @@ export default {
       this.picker.selectionMode = this.selectionMode;
       this.picker.unlinkPanels = this.unlinkPanels;
       this.picker.arrowControl = this.arrowControl || this.timeArrowControl || false;
+      
+      this.picker.selectedDate = Array.isArray(this.value) && this.value || [];
+
+      //xc mark:
+      if(this.type === 'dates') {
+        this.picker.selectedDate = parseAsFormatAndType(this.picker.selectedDate, this.valueFormat, this.type, this.rangeSeparator) || this.picker.selectedDate;
+        this.emitInput(this.picker.selectedDate);
+      }
+
       this.$watch('format', (format) => {
         this.picker.format = format;
       });
