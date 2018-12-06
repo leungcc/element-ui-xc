@@ -21,7 +21,7 @@
       </div>
       <input
         :tabindex="tabindex"
-        v-if="type !== 'textarea'"
+        v-if="type !== 'textarea' && !ss__readMode"
         class="el-input__inner"
         v-bind="$attrs"
         :type="type"
@@ -39,6 +39,12 @@
         @change="handleChange"
         :aria-label="label"
       >
+      <!--xc add: 如果 ss__readMode为true-->
+      <span 
+        v-if="ss__readMode"
+        class="el-input__inner text-overflow nobdr"
+        :title="currentValue">{{ currentValue }}</span>
+
       <!-- 前置内容 -->
       <span class="el-input__prefix" v-if="$slots.prefix || prefixIcon">
         <slot name="prefix"></slot>
@@ -123,6 +129,7 @@
 
     data() {
       return {
+        ss__readMode: false,
         currentValue: this.value === undefined || this.value === null
           ? ''
           : this.value,
@@ -141,6 +148,7 @@
       form: String,
       disabled: Boolean,
       readonly: Boolean,
+      readMode: Boolean,
       type: {
         type: String,
         default: 'text'
@@ -205,6 +213,9 @@
     watch: {
       value(val, oldValue) {
         this.setCurrentValue(val);
+      },
+      readMode(val, oldValue) {
+        this.ss__readMode = val;
       }
     },
 
@@ -325,6 +336,11 @@
     },
 
     created() {
+      this.ss__readMode = this.readMode;
+      //xc test
+      // setTimeout(() => {
+      //   this.ss__readMode = false;
+      // }, 2000)
       this.$on('inputSelect', this.select);
     },
 

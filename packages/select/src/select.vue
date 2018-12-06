@@ -19,6 +19,7 @@
           :closable="!selectDisabled"
           :size="collapseTagSize"
           :hit="item.hitState"
+          :read-mode="ss__readMode"
           type="info"
           @close="deleteTag($event, item)"
           disable-transitions>
@@ -28,6 +29,7 @@
           v-if="selected.length !== selectedShow.length"
           :closable="false"
           :size="collapseTagSize"
+          :read-mode="ss__readMode"
           type="info"
           disable-transitions>
           <span class="el-select__tags-text"> {{ '...' }}</span>
@@ -70,7 +72,9 @@
       <input
         type="text"
         class="el-select__input"
-        :class="[selectSize ? `is-${ selectSize }` : '']"
+        :class="[
+          selectSize ? `is-${ selectSize }` : ''
+        ]"
         :disabled="selectDisabled"
         :autocomplete="autoComplete"
         @focus="handleFocus"
@@ -96,6 +100,7 @@
       ref="reference"
       v-model="selectedLabel"
       type="text"
+      :read-mode="ss__readMode"
       :placeholder="currentPlaceholder"
       :name="name"
       :id="id"
@@ -122,6 +127,7 @@
       <i slot="suffix"
        :class="['el-select__caret', 'el-input__icon', 'el-icon-' + iconClass]"
        @click="handleIconClick"
+       v-if="!ss__readMode"
       ></i>
     </el-input>
     <transition
@@ -346,6 +352,7 @@
       automaticDropdown: Boolean,
       size: String,
       disabled: Boolean,
+      readMode: Boolean,  //xc add props: 如果有该属性，则证明是只读状态，不可下拉并选择，看不到边框
       noOptionMatchNull: {//xc add props: 如果声明该属性，则如果在prop中找不到value匹配的项时，不显示label
         type: Boolean,
         default: false
@@ -387,6 +394,7 @@
 
     data() {
       return {
+        ss__readMode: false,
         options: [],
         cachedOptions: [],
         createdLabel: null,
@@ -412,6 +420,10 @@
     },
 
     watch: {
+      readMode(val, oldVal) {
+        this.ss__readMode = val;
+      },
+
       selectDisabled() {
         this.$nextTick(() => {
           this.resetInputHeight();
@@ -816,6 +828,7 @@
       },
 
       toggleMenu() {
+        if(this.ss__readMode) return; //ss__readMode下无法下拉
         if (!this.selectDisabled) {
           if (this.menuVisibleOnFocus) {
             this.menuVisibleOnFocus = false;
@@ -922,6 +935,7 @@
     },
 
     created() {
+      this.ss__readMode = this.readMode;
       this.cachedPlaceHolder = this.currentPlaceholder = this.placeholder;
       if (this.multiple && !Array.isArray(this.value)) {
         this.$emit('input', []);

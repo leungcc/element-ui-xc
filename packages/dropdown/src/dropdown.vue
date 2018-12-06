@@ -29,6 +29,7 @@
     },
 
     props: {
+      readMode: Boolean,
       enterNotHide: {
         type: Boolean,
         default: false
@@ -66,6 +67,7 @@
 
     data() {
       return {
+        ss__readMode: false,
         timeout: null,
         visible: false,
         triggerElm: null,
@@ -83,6 +85,10 @@
       }
     },
 
+    created() {
+      this.ss__readMode = this.readMode;
+    },
+
     mounted() {
       this.$on('menu-item-click', this.handleMenuItemClick);
       this.initEvent();
@@ -90,6 +96,9 @@
     },
 
     watch: {
+      readMode(val, oldVal) {
+        this.ss__readMode = val;
+      },
       visible(val) {
         this.broadcast('ElDropdownMenu', 'visible', val);
         this.$emit('visible-change', val);
@@ -115,7 +124,7 @@
         };
       },
       show() {
-        if (this.triggerElm.disabled) return;
+        if (this.triggerElm.disabled || this.ss__readMode) return;
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
           this.visible = true;

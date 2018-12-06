@@ -51,7 +51,7 @@
             }
           }]
         },
-        value1: '',
+        value1: '2018-12-06 10:29:30',
         value2: '',
         value3: '',
         value4: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
@@ -101,11 +101,13 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，`Picker Options` 或者其
 ```html
 <template>
   <div class="block">
-    <span class="demonstration">默认</span>
+    <span class="demonstration">默认xctest</span>
     <el-date-picker
       v-model="value1"
       type="datetime"
-      placeholder="选择日期时间">
+      placeholder="选择日期时间"
+      :read-mode="true"
+      value-format="yyyy-MM-dd hh:mm:ss">
     </el-date-picker>
   </div>
   <div class="block">

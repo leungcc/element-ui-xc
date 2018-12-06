@@ -6,6 +6,7 @@
     :disabled="pickerDisabled"
     :size="pickerSize"
     :name="name"
+    :read-mode="ss__readMode"
     v-bind="firstInputId"
     v-if="!ranged"
     v-clickoutside="handleClose"
@@ -22,13 +23,14 @@
     <i slot="prefix"
       class="el-input__icon"
       :class="triggerClass"
-      @click="handleFocus">
+      @click="handleFocus"
+      v-if="!ss__readMode">
     </i>
     <i slot="suffix"
       class="el-input__icon"
       @click="handleClickIcon"
       :class="[showClose ? '' + clearIcon : '']"
-      v-if="haveTrigger">
+      v-if="haveTrigger && !ss__readMode">
     </i>
   </el-input>
   <div
@@ -345,6 +347,7 @@ export default {
   },
 
   props: {
+    readMode: Boolean,
     size: String,
     format: String,
     valueFormat: String,
@@ -395,6 +398,7 @@ export default {
 
   data() {
     return {
+      ss__readMode: false,
       pickerVisible: false,
       showClose: false,
       userInput: null,
@@ -404,6 +408,9 @@ export default {
   },
 
   watch: {
+    readMode(val, oldVal) {
+      this.ss__readMode = val;
+    },
     pickerVisible(val) {
       if (this.readonly || this.pickerDisabled) return;
       if (val) {
@@ -569,6 +576,7 @@ export default {
   },
 
   created() {
+    this.ss__readMode = this.readMode;
     // vue-popper
     this.popperOptions = {
       boundariesPadding: 0,
@@ -721,6 +729,8 @@ export default {
     },
 
     handleFocus() {
+      //xc mark:
+      if(this.ss__readMode) return;
       const type = this.type;
 
       if (HAVE_TRIGGER_TYPES.indexOf(type) !== -1 && !this.pickerVisible) {

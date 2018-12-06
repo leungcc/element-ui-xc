@@ -1,0 +1,65 @@
+$--person-height-map: (
+  xc: 174,
+  shafeng: 161,
+  xiaoying: 155
+);
+$--list: (1,2,3,4,5,6,7,8,9,10);
+
+.text-overflow {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.whatsb {
+  color: red;
+  font-weight: bold;
+}
+.nobdr { border: none !important; }
+
+.input-readmode {
+  border: none !important;
+}
+
+@mixin test-xc-mxin {
+  background-color: #fcf;
+  @content;
+}
+
+.test-xcmixin-class {
+  @include test-xc-mxin() {
+    border: 1px solid #ddd;
+  }
+  @if map-has-key($--person-height-map, xc) {
+    display: block;
+    padding-left: 20px;
+  }
+}
+
+@each $key,$value in $--person-height-map {
+  .test-height-#{$key} {
+    height: #{$value}px;
+  }
+}
+
+@for $i from 1 to length($--list)+1 {
+  .test-padding#{nth($--list, $i)} { 
+    padding: #{nth($--list, $i)}px;
+  }
+}
+.el-input__inner_xc {
+  -webkit-appearance: none;
+  background-color: #fff;
+  background-image: none;
+  border-radius: 4px;
+  border: 1px solid #dcdfe6;
+  box-sizing: border-box;
+  color: #606266;
+  display: inline-block;
+  font-size: inherit;
+  height: 40px;
+  line-height: 40px;
+  outline: none;
+  padding: 0 15px;
+  transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+  width: 100%;
+}

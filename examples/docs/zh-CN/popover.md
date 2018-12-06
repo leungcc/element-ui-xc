@@ -94,6 +94,34 @@
     }
   }
 </style>
+## xc测试表格td内的popover
+<template>
+  <el-table :data="gridData">
+    <el-table-column width="150" property="date" label="日期"></el-table-column>
+    <el-table-column width="100" property="name" label="姓名"></el-table-column>
+    <el-table-column width="300" property="address" label="地址"></el-table-column>
+    <el-table-column
+      label="xc自定义"
+    >
+      <template slot-scope="scope">
+        <el-popover
+          placement="bottom"
+          trigger="click"
+          width="400"
+          v-for="(item, key, index) in [0,1,2,3,4,5,6]">
+          <div>
+            大家好，我是渣渣辉
+          </div>
+          <p 
+            slot="reference"
+            style="width:100px;height:20px;background-color:gold;">        
+            {{ item }}
+          </p>
+        </el-popover>
+      </template>
+    </el-table-column>
+  </el-table>
+</template>
 
 ## Popover 弹出框
 
