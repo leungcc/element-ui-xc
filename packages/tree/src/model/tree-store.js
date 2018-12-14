@@ -6,6 +6,8 @@ export default class TreeStore {
     this.currentNode = null;
     this.currentNodeKey = null;
 
+    this.lastSelectedLeafNode = null;
+
     for (let option in options) {
       if (options.hasOwnProperty(option)) {
         this[option] = options[option];
@@ -328,6 +330,9 @@ export default class TreeStore {
     const node = this.getNode(key);
     if (node) {
       this.currentNode = node;
+      if(node.isLeaf) {
+        this.lastSelectedLeafNode = node;
+      }
     }
   }
 };

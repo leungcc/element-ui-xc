@@ -319,7 +319,7 @@ export default {
 ```
 :::
 
-### 文本域
+### 文本域xc改了readMode
 
 用于输入多行文本信息，通过将 `type` 属性的值指定为 textarea。
 
@@ -327,6 +327,7 @@ export default {
 ```html
 <el-input
   type="textarea"
+  :read-mode="true"
   :rows="2"
   placeholder="请输入内容"
   v-model="textarea">

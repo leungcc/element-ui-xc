@@ -224,6 +224,9 @@
   };
 
   export default {
+    mounted() {
+      
+    },
     watch: {
       filterText(val) {
         this.$refs.tree2.filter(val);
@@ -945,6 +948,9 @@
 
 <script>
   export default {
+    mounted() {
+      //dont write here
+    },
     watch: {
       filterText(val) {
         this.$refs.tree2.filter(val);

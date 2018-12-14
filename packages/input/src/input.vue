@@ -84,6 +84,7 @@
       v-else
       :tabindex="tabindex"
       class="el-textarea__inner"
+      :class="[ss__readMode?'nobdr':'']"
       :value="currentValue"
       @compositionstart="handleComposition"
       @compositionupdate="handleComposition"
@@ -92,7 +93,7 @@
       ref="textarea"
       v-bind="$attrs"
       :disabled="inputDisabled"
-      :readonly="readonly"
+      :readonly="readonly || ss__readMode"
       :style="textareaStyle"
       @focus="handleFocus"
       @blur="handleBlur"

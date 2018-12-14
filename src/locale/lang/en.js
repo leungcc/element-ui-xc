@@ -74,6 +74,7 @@ export default {
       pagesize: '/page',
       total: 'Total {total}',
       totalPage: '{total} page in total',
+      totalPageXc: 'page {cur}/{total}',
       pageClassifier: ''
     },
     messagebox: {

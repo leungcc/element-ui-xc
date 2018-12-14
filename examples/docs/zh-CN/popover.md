@@ -103,7 +103,7 @@
     <el-table-column
       label="xc自定义"
     >
-      <template slot-scope="scope">
+      <!-- <template slot-scope="scope">
         <el-popover
           placement="bottom"
           trigger="click"
@@ -118,7 +118,7 @@
             {{ item }}
           </p>
         </el-popover>
-      </template>
+      </template> -->
     </el-table-column>
   </el-table>
 </template>

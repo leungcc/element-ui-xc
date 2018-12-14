@@ -116,7 +116,7 @@
 ```
 :::
 
-### 任意时间范围
+### 任意时间范围xc改了下噢
 
 可选择任意的时间范围
 
@@ -129,7 +129,8 @@
     range-separator="至"
     start-placeholder="开始时间"
     end-placeholder="结束时间"
-    placeholder="选择时间范围">
+    placeholder="选择时间范围"
+    :read-mode="true">
   </el-time-picker>
   <el-time-picker
     is-range

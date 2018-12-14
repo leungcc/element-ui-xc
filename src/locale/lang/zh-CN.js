@@ -74,6 +74,7 @@ export default {
       pagesize: '条/页',
       total: '共 {total} 条',
       totalPage: '共{total}页',
+      totalPageXc: '{cur}/{total} 页',
       pageClassifier: '页'
     },
     messagebox: {

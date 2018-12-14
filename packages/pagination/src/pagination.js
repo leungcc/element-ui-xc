@@ -84,7 +84,8 @@ export default {
       last: <last></last>,
       sizes: <sizes pageSizes={ this.pageSizes }></sizes>,
       slot: <my-slot></my-slot>,
-      total: <total></total>
+      total: <total></total>,
+      totalPage: <totalPage></totalPage>
     };
     const components = layout.split(',').map((item) => item.trim());
     const rightWrapper = <div class="el-pagination__rightwrapper"></div>;
@@ -92,6 +93,7 @@ export default {
 
     template.children = template.children || [];
     rightWrapper.children = rightWrapper.children || [];
+
     components.forEach(compo => {
       if (compo === '->') {
         haveRightWrapper = true;
@@ -108,7 +110,7 @@ export default {
     if (haveRightWrapper) {
       template.children.unshift(rightWrapper);
     }
-
+    
     return template;
   },
 
@@ -336,6 +338,19 @@ export default {
             { this.t('el.pagination.pageClassifier') }
             {/* <span style="margin-left:14px;fontSize:14px;">{ this.t('el.pagination.totalPage', { total: this.$parent.internalPageCount }) }</span> */}
           </span>
+        );
+      }
+    },
+
+    TotalPage: {
+      mixins: [Locale],
+      render(h) {
+        return (
+          typeof this.$parent.total === 'number'
+            ? <span class="el-pagination__total">{ this.t('el.pagination.totalPageXc', { cur: this.$parent.internalCurrentPage, total: Math.ceil(this.$parent.total/this.$parent.pageSize) }) }</span>
+            : ''
+
+          //<span class="el-pagination__total">{ `${this.$parent.internalCurrentPage}/${this.$parent.total/this.$parent.pageSize}` }</span>
         );
       }
     },

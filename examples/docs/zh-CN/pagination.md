@@ -9,7 +9,7 @@
 <div class="block">
   <span class="demonstration">页数较少时的效果</span>
   <el-pagination
-    layout="prev, pager, next"
+    layout="prev, pager, next, totalPage"
     :total="50">
   </el-pagination>
 </div>

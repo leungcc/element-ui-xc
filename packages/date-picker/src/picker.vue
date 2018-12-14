@@ -39,7 +39,8 @@
       'el-date-editor--' + type,
       pickerSize ? `el-range-editor--${ pickerSize }` : '',
       pickerDisabled ? 'is-disabled' : '',
-      pickerVisible ? 'is-active' : ''
+      pickerVisible ? 'is-active' : '',
+      ss__readMode ? 'nobdr' : ''
     ]"
     @click="handleRangeClick"
     @mouseenter="handleMouseEnter"
@@ -55,7 +56,7 @@
       :value="displayValue && displayValue[0]"
       :disabled="pickerDisabled"
       v-bind="firstInputId"
-      :readonly="!editable || readonly"
+      :readonly="!editable || readonly || ss__readMode"
       :name="name && name[0]"
       @input="handleStartInput"
       @change="handleStartChange"
@@ -70,7 +71,7 @@
       :value="displayValue && displayValue[1]"
       :disabled="pickerDisabled"
       v-bind="secondInputId"
-      :readonly="!editable || readonly"
+      :readonly="!editable || readonly || ss__readMode"
       :name="name && name[1]"
       @input="handleEndInput"
       @change="handleEndChange"
@@ -78,7 +79,7 @@
       class="el-range-input">
     <i
       @click="handleClickIcon"
-      v-if="haveTrigger"
+      v-if="haveTrigger && !ss__readMode"
       :class="[showClose ? '' + clearIcon : '']"
       class="el-input__icon el-range__close-icon">
     </i>
@@ -793,6 +794,7 @@ export default {
     },
 
     handleRangeClick() {
+      if(this.ss__readMode) return;
       const type = this.type;
 
       if (HAVE_TRIGGER_TYPES.indexOf(type) !== -1 && !this.pickerVisible) {

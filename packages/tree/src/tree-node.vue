@@ -26,7 +26,7 @@
   >
     <div class="el-tree-node__content"
       :style="{ 'padding-left': (node.level - 1) * tree.indent + 'px' }"
-      :class="[ `tree-node-level-${nodeLevel}` ]">
+      :class="[ `tree-node-level-${nodeLevel}`, tree.store.lastSelectedLeafNode && tree.store.lastSelectedLeafNode.data.id == node.data.id ? 'lastSelectedLeafNode' : '' ]">
       <span
         class="el-tree-node__expand-icon el-icon-caret-right"
         @click.stop="handleExpandIconClick"
@@ -174,6 +174,12 @@
 
         const store = this.tree.store;
         store.setCurrentNode(this.node);
+        
+        //xc add叶子节点被点击后用 store.lastSelectedLeafNode 缓存起来
+        if(this.node.isLeaf) {
+          this.tree.store.lastSelectedLeafNode = this.node;
+        }
+
         this.tree.$emit('current-change', store.currentNode ? store.currentNode.data : null, store.currentNode);
         this.tree.currentNode = this;
         if (this.tree.expandOnClickNode) {
