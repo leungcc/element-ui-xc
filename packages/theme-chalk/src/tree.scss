@@ -120,3 +120,7 @@
 .el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {
   background-color: mix($--color-white, $--color-primary, 92%);
 }
+
+.el-icon-arrow-up.expanded:before {
+  content: "\E604";
+}

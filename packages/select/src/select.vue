@@ -16,7 +16,7 @@
         <el-tag
           v-for="item in selectedShow"
           :key="getValueKey(item)"
-          :closable="!selectDisabled"
+          :closable="!selectDisabled && !noDeleteTag"
           :size="collapseTagSize"
           :hit="item.hitState"
           :read-mode="ss__readMode"
@@ -158,6 +158,10 @@
             (!allowCreate || loading || (allowCreate && options.length === 0 ))">
           {{ emptyText }}
         </p>
+        <div class="el-select-dropdown__bottom">
+          {{ slot }}
+          <slot name="bottom"></slot>
+        </div>
       </el-select-menu>
     </transition>
   </div>
@@ -352,8 +356,9 @@
       automaticDropdown: Boolean,
       size: String,
       disabled: Boolean,
-      readMode: Boolean,  //xc add props: 如果有该属性，则证明是只读状态，不可下拉并选择，看不到边框
-      noOptionMatchNull: {//xc add props: 如果声明该属性，则如果在prop中找不到value匹配的项时，不显示label
+      noDeleteTag: Boolean, //xc add props: 如果有该属性，则证明无能点击删除tag
+      readMode: Boolean,    //xc add props: 如果有该属性，则证明是只读状态，不可下拉并选择，看不到边框
+      noOptionMatchNull: {  //xc add props: 如果声明该属性，则如果在prop中找不到value匹配的项时，不显示label
         type: Boolean,
         default: false
       }, 

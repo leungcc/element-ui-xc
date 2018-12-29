@@ -404,6 +404,7 @@
   :data="data" 
   :props="defaultProps" 
   @node-click="handleNodeClick"
+  :arrow-right="true"
   :forbid-clk-levels="[1]">
 </el-tree>
 
@@ -707,7 +708,8 @@
   node-key="id"
   ref="tree"
   highlight-current
-  :props="defaultProps">
+  :props="defaultProps"
+  :arrow-right="true">
 </el-tree>
 
 <div class="buttons">

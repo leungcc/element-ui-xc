@@ -28,7 +28,8 @@
       :style="{ 'padding-left': (node.level - 1) * tree.indent + 'px' }"
       :class="[ `tree-node-level-${nodeLevel}`, tree.store.lastSelectedLeafNode && tree.store.lastSelectedLeafNode.data.id == node.data.id ? 'lastSelectedLeafNode' : '' ]">
       <span
-        class="el-tree-node__expand-icon el-icon-caret-right"
+        v-if="!arrowRight"
+        class="el-tree-node__expand-icon el-icon-arrow-right"
         @click.stop="handleExpandIconClick"
         :class="{ 'is-leaf': node.isLeaf, expanded: !node.isLeaf && expanded }">
       </span>
@@ -46,6 +47,12 @@
         class="el-tree-node__loading-icon el-icon-loading">
       </span>
       <node-content :node="node"></node-content>
+      <span
+        v-if="arrowRight"
+        class="el-tree-node__expand-icon el-icon-arrow-up"
+        @click.stop="handleExpandIconClick"
+        :class="{ 'is-leaf': node.isLeaf, expanded: !node.isLeaf && expanded }">
+      </span>
     </div>
     <el-collapse-transition>
       <div
@@ -56,6 +63,7 @@
         :aria-expanded="expanded"
       >
         <el-tree-node
+          :arrow-right="arrowRight"
           :forbid-clk-levels="forbidClkLevels"
           :render-content="renderContent"
           :node-level="nodeLevel+1"
@@ -84,6 +92,7 @@
     mixins: [emitter],
 
     props: {
+      arrowRight: Boolean,
       node: {
         default() {
           return {};

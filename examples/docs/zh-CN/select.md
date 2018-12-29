@@ -136,6 +136,10 @@
         } else {
           this.options4 = [];
         }
+      },
+
+      xcBtnOk() {
+        console.warn('xcBtnOk..');
       }
     }
   };
@@ -160,7 +164,7 @@ readMode下的单选
     v-model="valuexc1" 
     placeholder="请选择" 
     :no-option-match-null="true"
-    :read-mode="true">
+    :read-mode="false">
     <el-option
       v-for="item in options"
       :key="item.value"
@@ -208,13 +212,17 @@ readMode下的单选
     collapse-tags
     style="margin-left: 20px;"
     placeholder="请选择"
-    :read-mode="true">
+    :read-mode="false"
+    no-delete-tag>
     <el-option
       v-for="item in options"
       :key="item.value"
       :label="item.label"
       :value="item.value">
     </el-option>
+    <div slot="bottom">
+      <el-button size="mini" @click="xcBtnOk">确定</el-button>
+    </div>
   </el-select>
 </template>
 ```

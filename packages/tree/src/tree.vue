@@ -11,6 +11,7 @@
   >
     <el-tree-node
       v-for="child in root.childNodes"
+      :arrow-right="arrowRight"
       :forbid-clk-levels="forbidClkLevels"
       :node-level="1"
       :node="child"
@@ -65,6 +66,7 @@
     },
 
     props: {
+      arrowRight: Boolean,
       forbidClkLevels: Array,
       data: {
         type: Array
@@ -98,6 +100,10 @@
       defaultCheckedKeys: Array,
       defaultExpandedKeys: Array,
       renderContent: Function,
+      arrowRight: {
+        type: Boolean,
+        default: false
+      },
       showCheckbox: {
         type: Boolean,
         default: false
