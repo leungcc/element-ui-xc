@@ -166,7 +166,7 @@
   </el-col>
   <el-col :span="12">
     <span class="demonstration">click 激活</span>
-    <el-dropdown trigger="click" :enter-not-hide="true" :read-mode="true">
+    <el-dropdown trigger="click" :enter-not-hide="true"><!-- :read-mode="true" -->
       <span class="el-dropdown-link">
         下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
       </span>

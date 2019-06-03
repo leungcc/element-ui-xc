@@ -130,7 +130,7 @@
     start-placeholder="开始时间"
     end-placeholder="结束时间"
     placeholder="选择时间范围"
-    :read-mode="true">
+    :read-mode="false">
   </el-time-picker>
   <el-time-picker
     is-range

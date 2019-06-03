@@ -113,6 +113,8 @@
     data() {
       return {
         popperClass: '',
+        lastMinDate: new Date(),
+        lastMaxDate: new Date(),
         minDate: new Date(),
         maxDate: new Date(),
         value: [],
@@ -162,20 +164,29 @@
       },
 
       handleMinChange(date) {
+        this.lastMinDate = this.minDate;
         this.minDate = clearMilliseconds(date);
-        this.handleChange();
+        this.handleChange('minDate');
       },
 
       handleMaxChange(date) {
+        this.lastMaxDate = this.maxDate;
         this.maxDate = clearMilliseconds(date);
-        this.handleChange();
+        this.handleChange('maxDate');
       },
 
-      handleChange() {
+      //xc add param xxxDate
+      /**
+       * @param {String} xxxDate 
+       */
+      handleChange(xxxDate) {
         if (this.isValidValue([this.minDate, this.maxDate])) {
           this.$refs.minSpinner.selectableRange = [[minTimeOfDay(this.minDate), this.maxDate]];
           this.$refs.maxSpinner.selectableRange = [[this.minDate, maxTimeOfDay(this.maxDate)]];
           this.$emit('pick', [this.minDate, this.maxDate], true);
+        } else {
+          if(xxxDate && xxxDate === 'minDate') this.minDate = this.lastMinDate;
+          if(xxxDate && xxxDate === 'maxDate') this.maxDate = this.lastMaxDate;
         }
       },
 

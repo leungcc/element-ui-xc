@@ -22,7 +22,10 @@
       :popper-class="tooltipClass"
       :disabled="!showTooltip">
       <span slot="content">{{ formatValue }}</span>
-      <div class="el-slider__button" :class="{ 'hover': hovering, 'dragging': dragging }"></div>
+      <div class="el-slider__button" :class="{ 'hover': hovering, 'dragging': dragging }">
+        <!--xc add-->
+        <span class="xc-valueSpan" v-if="isShowVal">{{ formatValue }}</span>
+      </div>
     </el-tooltip>
   </div>
 </template>
@@ -41,6 +44,11 @@
       value: {
         type: Number,
         default: 0
+      },
+      //是否在圆上方显示值
+      isShowVal: {
+        type: Boolean,
+        default: false
       },
       vertical: {
         type: Boolean,

@@ -34,12 +34,14 @@
         :vertical="vertical"
         v-model="firstValue"
         :tooltip-class="tooltipClass"
+        :isShowVal="isShowVal"
         ref="button1">
       </slider-button>
       <slider-button
         :vertical="vertical"
         v-model="secondValue"
         :tooltip-class="tooltipClass"
+        :isShowVal="isShowVal"
         ref="button2"
         v-if="range">
       </slider-button>
@@ -71,6 +73,11 @@
     },
 
     props: {
+      //是否在圆上方显示值
+      isShowVal: {
+        type: Boolean,
+        default: false
+      },
       min: {
         type: Number,
         default: 0

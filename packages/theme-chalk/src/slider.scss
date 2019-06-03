@@ -125,6 +125,16 @@
     border-radius: 50%;
     transition: .2s;
     user-select: none;
+    position: relative;
+
+    .xc-valueSpan {
+      color: $--color-primary;
+      position: absolute;
+      left: 50%;
+      //top: 50%;
+      transform: translate(-50%, -100%);
+      font-size: 12px;
+    }
 
     &:hover,
     &.hover,

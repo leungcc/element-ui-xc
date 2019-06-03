@@ -66,7 +66,7 @@
   </div>
   <div class="block">
     <span class="demonstration">自定义初始值</span>
-    <el-slider v-model="value2"></el-slider>
+    <el-slider v-model="value2" :is-show-val="true"></el-slider>
   </div>
   <div class="block">
     <span class="demonstration">隐藏 Tooltip</span>

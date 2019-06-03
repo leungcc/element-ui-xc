@@ -57,7 +57,8 @@
         value4: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
         value5: '',
         value6: '',
-        value7: ''
+        value7: '',
+        xctest2: ['', '']
       };
     }
   };
@@ -270,6 +271,34 @@ DateTimePicker 由 DatePicker 和 TimePicker 派生，`Picker Options` 或者其
       return {
         value6: '',
         value7: ''
+      };
+    }
+  };
+</script>
+```
+:::
+
+### xc测试为什么门禁记录的时间筛选用字符串无法选中下午的时间（2019-1-8 15:52:23变为2019-1-8 3:52:23）
+:::demo
+```html
+<template>
+  <el-date-picker
+    value-format="yyyy-MM-dd hh:mm:ss"
+    v-model="xctest2"
+    type="datetimerange"
+    align="right"
+    start-placeholder="开始日期"
+    end-placeholder="结束日期"
+    size="small"
+    class="filter-item">
+  </el-date-picker>
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        xctest2: ['', '']
       };
     }
   };
