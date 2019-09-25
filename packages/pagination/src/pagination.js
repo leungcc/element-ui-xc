@@ -323,6 +323,7 @@ export default {
             { this.t('el.pagination.goto') }
             <el-input
               class="el-pagination__editor is-in-pagination"
+              style={{width: (parseInt(this.$parent.total/this.$parent.pageSize).toString().length*10 + 16) + 'px'}}
               min={ 1 }
               max={ this.$parent.internalPageCount }
               value={ this.$parent.internalCurrentPage }

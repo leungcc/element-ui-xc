@@ -15,7 +15,8 @@
       barStyle: {
         cache: false,
         get() {
-          if (!this.$parent.$refs.tabs) return {};
+          // xc mark: xc注释2019-07-30,这句话导致 tabs底部active-bar失效
+          // if (!this.$parent.$refs.tabs) return {};
           let style = {};
           let offset = 0;
           let tabSize = 0;

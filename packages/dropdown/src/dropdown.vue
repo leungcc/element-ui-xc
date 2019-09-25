@@ -62,6 +62,10 @@
       hideTimeout: {
         type: Number,
         default: 150
+      },
+      stopPropagation: {
+        type: Boolean,
+        default: false
       }
     },
 
@@ -139,7 +143,10 @@
           this.visible = false;
         }, this.trigger === 'click' ? 0 : this.hideTimeout);
       },
-      handleClick() {
+      handleClick(e) {
+        if(this.stopPropagation && e) 
+          e.stopPropagation();
+
         if (this.triggerElm.disabled) return;
         if (this.visible) {
           this.hide();

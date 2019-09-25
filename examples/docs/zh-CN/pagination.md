@@ -99,9 +99,9 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage3"
-      :page-size="100"
+      :page-size="10"
       layout="first, prev, pager, next, last, jumper"
-      :total="1000">
+      :total="0">
     </el-pagination>
   </div>
   <div class="block">
@@ -110,10 +110,10 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="currentPage4"
-      :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
+      :page-sizes="[10, 100, 200, 300, 400]"
+      :page-size="10"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="400">
+      :total="128484">
     </el-pagination>
   </div>
 </template>
