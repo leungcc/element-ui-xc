@@ -553,4 +553,14 @@
       overflow: hidden;
     }
   }
+
+  [class*=el-table__row--level] {
+    .el-table__expand-icon {
+      display: inline-block;
+      width: 10px;
+      vertical-align: middle;
+      margin-right: 2px;
+      margin-left: -9px;
+    }
+  }
 }

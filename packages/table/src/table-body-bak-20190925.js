@@ -1,5 +1,5 @@
 import { getCell, getColumnByCell, getRowIdentity } from './util';
-import { getStyle, hasClass } from 'element-ui/src/utils/dom';
+import { getStyle, hasClass, addClass, removeClass } from 'element-ui/src/utils/dom';
 import ElCheckbox from 'element-ui/packages/checkbox';
 import ElTooltip from 'element-ui/packages/tooltip';
 import debounce from 'throttle-debounce/debounce';
@@ -42,44 +42,22 @@ export default {
         </colgroup>
         <tbody>
           {
-            this._l(this.data, (row, $index) => {
-              const rowKey = this.table.rowKey ? this.getKeyOfRow(row, $index) : $index;
-              const treeNode = this.treeData[rowKey];
-              const rowClasses = this.getRowClass(row, $index);
-              if (treeNode) {
-                rowClasses.push('el-table__row--level-' + treeNode.level);
-              }
-              const tr = (<tr
-                v-show={ treeNode ? treeNode.display : true }
+            this._l(this.data, (row, $index) =>
+              [<tr
                 style={ this.rowStyle ? this.getRowStyle(row, $index) : null }
-                key={ rowKey }
+                key={ this.table.rowKey ? this.getKeyOfRow(row, $index) : $index }
                 on-dblclick={ ($event) => this.handleDoubleClick($event, row) }
                 on-click={ ($event) => this.handleClick($event, row) }
                 on-contextmenu={ ($event) => this.handleContextMenu($event, row) }
                 on-mouseenter={ _ => this.handleMouseEnter($index) }
                 on-mouseleave={ _ => this.handleMouseLeave() }
-                class={ rowClasses }>
+                class={ [this.getRowClass(row, $index)] }>
                 {
                   this._l(this.columns, (column, cellIndex) => {
                     const { rowspan, colspan } = this.getSpan(row, column, $index, cellIndex);
                     if (!rowspan || !colspan) {
                       return '';
                     } else {
-                      const data = {
-                        store: this.store,
-                        _self: this.context || this.table.$vnode.context,
-                        row,
-                        column,
-                        $index
-                      };
-                      if (cellIndex === this.firstDefaultColumnIndex && treeNode) {
-                        data.treeNode = {
-                          isLeaf: treeNode.children && treeNode.children.length,
-                          expanded: treeNode.expanded,
-                          indent: treeNode.level * 20,
-                          rowKey
-                        };
-                      }
                       return (
                         <td
                           style={ this.getCellStyle($index, cellIndex, row, column) }
@@ -92,7 +70,13 @@ export default {
                             column.renderCell.call(
                               this._renderProxy,
                               h,
-                              data,
+                              {
+                                row,
+                                column,
+                                $index,
+                                store: this.store,
+                                _self: this.context || this.table.$vnode.context
+                              },
                               columnsHidden[cellIndex]
                             )
                           }
@@ -101,26 +85,58 @@ export default {
                     }
                   })
                 }
-              </tr>);
-              if (this.store.isRowExpanded(row)) {
-                return [
-                  tr,
-                  <tr>
-                    <td colspan={ this.columns.length } class="el-table__expanded-cell">
-                      { this.table.renderExpanded ? this.table.renderExpanded(h, { row, $index, store: this.store }) : ''}
-                    </td>
-                  </tr>
-                ];
-              } else {
-                return tr;
-              }
-            }).concat(
+              </tr>,
+              this.store.isRowExpanded(row)
+                ? (<tr>
+                  <td colspan={ this.columns.length } class="el-table__expanded-cell">
+                    { this.table.renderExpanded ? this.table.renderExpanded(h, { row, $index, store: this.store }) : ''}
+                  </td>
+                </tr>)
+                : ''
+              ]
+            ).concat(
               <el-tooltip effect={ this.table.tooltipEffect } placement="top" ref="tooltip" content={ this.tooltipContent }></el-tooltip>
             )
           }
         </tbody>
       </table>
     );
+  },
+
+  watch: {
+    'store.states.hoverRow'(newVal, oldVal) {
+      if (!this.store.states.isComplex) return;
+      const el = this.$el;
+      if (!el) return;
+      const tr = el.querySelector('tbody').children;
+      const rows = [].filter.call(tr, row => hasClass(row, 'el-table__row'));
+      const oldRow = rows[oldVal];
+      const newRow = rows[newVal];
+      if (oldRow) {
+        removeClass(oldRow, 'hover-row');
+      }
+      if (newRow) {
+        addClass(newRow, 'hover-row');
+      }
+    },
+    'store.states.currentRow'(newVal, oldVal) {
+      if (!this.highlight) return;
+      const el = this.$el;
+      if (!el) return;
+      const data = this.store.states.data;
+      const tr = el.querySelector('tbody').children;
+      const rows = [].filter.call(tr, row => hasClass(row, 'el-table__row'));
+      const oldRow = rows[data.indexOf(oldVal)];
+      const newRow = rows[data.indexOf(newVal)];
+      if (oldRow) {
+        removeClass(oldRow, 'current-row');
+      } else {
+        [].forEach.call(rows, row => removeClass(row, 'current-row'));
+      }
+      if (newRow) {
+        addClass(newRow, 'current-row');
+      }
+    }
   },
 
   computed: {
@@ -130,10 +146,6 @@ export default {
 
     data() {
       return this.store.states.data;
-    },
-
-    treeData() {
-      return this.store.states.treeData;
     },
 
     columnsCount() {
@@ -158,15 +170,6 @@ export default {
 
     columns() {
       return this.store.states.columns;
-    },
-
-    firstDefaultColumnIndex() {
-      for (let index = 0; index < this.columns.length; index++) {
-        if (this.columns[index].type === 'default') {
-          return index;
-        }
-      }
-      return 0;
     }
   },
 
@@ -244,10 +247,6 @@ export default {
         classes.push('current-row');
       }
 
-      if (rowIndex === this.store.states.hoverRow) {
-        classes.push('hover-row');
-      }
-
       if (this.stripe && rowIndex % 2 === 1) {
         classes.push('el-table__row--striped');
       }
@@ -265,7 +264,7 @@ export default {
         classes.push('expanded');
       }
 
-      return classes;
+      return classes.join(' ');
     },
 
     getCellStyle(rowIndex, columnIndex, row, column) {
@@ -382,17 +381,12 @@ export default {
           table.$emit(`cell-${name}`, row, column, cell, event);
         }
       }
-      table.$emit(`row-${name}`, row, column, event);
+      table.$emit(`row-${name}`, row, event, column);
     },
 
     handleExpandClick(row, e) {
       e.stopPropagation();
       this.store.toggleRowExpansion(row);
-    },
-
-    handleTreeExpandClick(rowKey, e) {
-      e.stopPropagation();
-      this.toggleTreeExpansion(rowKey);
     }
   }
 };
