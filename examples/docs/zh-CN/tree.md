@@ -225,7 +225,7 @@
 
   export default {
     mounted() {
-      
+
     },
     watch: {
       filterText(val) {

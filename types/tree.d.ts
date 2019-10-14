@@ -216,7 +216,7 @@ export declare class ElTree<K = any, D = TreeData> extends ElementUIComponent {
    *
    * @param by node key or node data
    */
-  getNode(by: D | K): D;
+  getNode(by: D | K): TreeNode<K, D>;
 
   /**
    * Remove node by key or node data or node instance
